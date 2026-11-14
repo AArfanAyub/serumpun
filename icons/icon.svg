@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Serumpun leaf mark">
+  <rect width="512" height="512" rx="96" fill="#FAF7F0"/>
+  <path d="M256 432V232" stroke="#2F6B3A" stroke-width="26" stroke-linecap="round"/>
+  <path d="M256 300C166 300 104 246 96 152c94 4 152 58 160 148z" fill="#2F6B3A"/>
+  <path d="M256 250c90 0 152-54 160-148-94 4-152 58-160 148z" fill="#D9A441"/>
+  <circle cx="256" cy="196" r="18" fill="#1F2A21"/>
+</svg>
