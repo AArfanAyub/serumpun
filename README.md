@@ -25,10 +25,20 @@ recommendation and rotation view carries a fixed decision-support disclaimer and
 | **Windows installer `.exe`** — optional, with shortcut and uninstaller | [Latest release](https://github.com/AArfanAyub/serumpun/releases/latest) |
 | **Source code** | https://github.com/AArfanAyub/serumpun |
 
-The web version is hosted for free on **GitHub Pages** and is rebuilt automatically by
-`.github/workflows/pages.yml` on every push to `main` (type-check → offline test suite →
-static build → deploy). It is a pure static bundle with relative asset URLs, so the same
-`dist/` folder also runs from any other free static host, a local file share or a USB stick.
+The web version is hosted for free on **GitHub Pages** from the `gh-pages` branch.
+Maintainers can publish a new build with one command:
+
+```bash
+npm run deploy:pages   # type-check + build, then push dist/ to the gh-pages branch
+```
+
+That script needs only a normal `repo`-scoped GitHub login (`gh auth login`) and the
+`origin` remote. A ready-made GitHub Actions workflow is kept at
+`docs/pages-workflow.yml.example`; rename it to `.github/workflows/pages.yml` and set
+Pages to "GitHub Actions" if your token also has the `workflow` scope.
+
+The app is a pure static bundle with relative asset URLs, so the same `dist/` folder
+also runs from any other free static host, a local file share or a USB stick.
 
 The Windows builds are attached to the GitHub Release, not committed to the repository.
 Both are unsigned (no code-signing certificate, no payment, no account involved), so
