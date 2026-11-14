@@ -104,8 +104,9 @@ failed registration never breaks the app.
 The app immediately produces a complete recommendation, rotation plan and strategy comparison
 from bundled sample payloads, badged **"Offline sample data"** with every factor flagged as
 estimated. You can also just disable your network after loading the page — every source has a
-timeout and degrades independently, and the persistent status banner shows
-**Live / Partly estimated / Offline sample**.
+timeout and degrades independently. Every displayed value still carries its own source,
+freshness and estimated badge, and the **Data & sources** screen lists every source with a
+retry action.
 
 ---
 

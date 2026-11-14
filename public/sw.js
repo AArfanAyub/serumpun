@@ -7,7 +7,7 @@
  *   - the app never depends on this file: bundled sample payloads in src/data/sample/
  *     already make a first-run, zero-network session fully functional.
  */
-const VERSION = 'serumpun-shell-v1';
+const VERSION = 'serumpun-shell-v2';
 const SHELL = [
   './',
   './index.html',

@@ -159,7 +159,7 @@ describe('every screen renders with real offline data', () => {
     expect(html).toContain('NASA POWER');
   });
 
-  it('every screen keeps the persistent banner entry and disclaimer on data screens', () => {
+  it('every screen keeps the data-sources link and disclaimer on data screens', () => {
     for (const screen of ['S2_SNAPSHOT', 'S4_RECOMMENDATIONS', 'S5_WHY', 'S6_ROTATION'] as Screen[]) {
       holder.value = contextValue(screen);
       const html = renderToStaticMarkup(createElement(SCREENS.find((entry) => entry[1] === screen)![2]));

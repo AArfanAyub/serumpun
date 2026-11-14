@@ -241,8 +241,9 @@ Live verification (after `POST /pages/builds` reported `status: built`):
   `manifest.webmanifest`, all three hashed `assets/*`, all four `icons/*`, `.nojekyll`.
 - Headless Chrome rendering of the live URL produced the real welcome screen with the
   stylesheet applied: "Know what to plant, and why.", "Find my field", the free/no-account
-  statement, status banner, footer and the "Windows desktop app" link to the release.
-  Screenshot: `qa-artifacts/live-pages-welcome.png`.
+  statement, footer and the "Windows desktop app" link to the release. The status banner
+  visible in that first screenshot was removed afterwards at the product owner's request
+  (§11). Screenshot: `qa-artifacts/live-pages-welcome.png`.
 - `npm test` after all publishing changes: 128 passed, 5 live tests skipped (opt-in).
 
 Repo hygiene: `release/`, `desktop/web/` and `qa-artifacts/chrome-profile/` are gitignored.
@@ -269,3 +270,34 @@ Suggested user next steps:
 4. `npm run verify:live` to prove the live data path.
 5. `npm run deploy:pages` to publish a new web build; `cd desktop && npm run dist` to
    rebuild the Windows binaries.
+
+## 11. Post-release UI change — removal of the global status banner
+
+The product owner asked to remove the
+"Offline sample — Offline sample data — nothing is live right now" strip from the website.
+It was a global sticky strip on every screen, including the welcome screen before any data
+had been requested.
+
+Changes (**web build only**; the already-published Windows executables are unchanged):
+
+- `src/App.tsx` — removed `<StatusBanner />` and its import; shell comment updated.
+- `src/components/StatusBanner.tsx` — deleted.
+- `src/styles/utilities.css` — removed the `.status-banner` / `.status-dot` rules.
+- `src/i18n/en.ts` — removed the six now-unused `banner.*` keys (`id.ts` spreads `en`).
+- `public/sw.js` — cache `VERSION` bumped to `serumpun-shell-v2` so returning visitors do
+  not keep the old cached HTML/JS shell.
+- `tests/render.test.ts` — regression test now asserts there is no `status-banner`, no
+  "nothing is live right now" and no "Offline sample data" banner text on first paint.
+- `tests/screens.test.ts`, `README.md`, `docs/01-prd.md`, `docs/02-architecture.md` —
+  wording updated; the PRD and architecture carry an amendment note.
+
+Provenance is **not** lost: every value still shows its source, freshness and estimated
+badge (`SourceLabel` / `EstimatedBadge`), S7 lists all sources with a retry action, the
+footer links to Data & sources, and `FieldCardExport` still exports `site.appStatus`. The
+string "Offline sample data" remains in the bundle only as a per-value freshness label.
+
+Verification: `npm run typecheck` clean, `npm test` 128 passed / 5 opt-in live skipped,
+`npm run build` clean (88 modules). Redeployed to `gh-pages` and re-verified live: the
+headless-Chrome DOM contains no `status-banner`, no "nothing is live right now" and no
+offline strip, while the welcome screen, both CTAs, disclaimer, footer and Windows release
+link still render. Screenshot: `qa-artifacts/live-pages-no-banner.png`.

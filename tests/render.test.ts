@@ -23,21 +23,20 @@ describe('application shell renders end-to-end (no runtime crash)', () => {
     expect(html.length).toBeGreaterThan(500);
     expect(html).toContain('app-shell');
     expect(html).toContain('app-header');
-    expect(html).toContain('status-banner');
     expect(html).toContain('skip-link');
     expect(html).toContain('Serumpun');
     expect(html).toContain('Free · No account · No ads · Works offline');
     expect(html).toContain('Find my field');
-    expect(html).toContain('Offline sample');
     expect(html).toContain('Please read');
     expect(html).toContain('decision support');
     expect(html).toContain('Data &amp; sources');
   });
 
-  it('shows the persistent status banner and a language toggle on first paint', () => {
+  it('no longer renders the offline status banner on first paint', () => {
     const html = renderApp();
-    expect(html).toContain('role="status"');
-    expect(html).toContain('aria-live="polite"');
+    expect(html).not.toContain('status-banner');
+    expect(html).not.toContain('nothing is live right now');
+    expect(html).not.toContain('Offline sample data');
     expect(html).toContain('ID'); // language switch to Bahasa Indonesia
     expect(html).toContain('app-footer');
   });

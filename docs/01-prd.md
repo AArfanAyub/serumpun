@@ -1,5 +1,11 @@
 # Serumpun — Product Requirements Document (PRD)
 
+> **Post-release amendment (2026-11-14):** at the product owner's request, the global
+> *Live / Partly estimated / Offline sample* status banner was removed from the web app.
+> US-09, R-10 and the "Global" UI rules below describe the original 1.0.0 design; the
+> shipped web build surfaces provenance per value (`SourceLabel`, `EstimatedBadge`) and on
+> the Data & sources screen instead. All other offline-behaviour requirements are unchanged.
+
 | Field | Value |
 |---|---|
 | Document | `01-prd.md` — Simple PRD (no competitor / market analysis requested) |

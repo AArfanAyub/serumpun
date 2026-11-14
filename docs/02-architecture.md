@@ -1,5 +1,10 @@
 # Serumpun — System Design & Task Breakdown
 
+> **Post-release amendment (2026-11-14):** the global `StatusBanner` component and its
+> `.status-banner` styles were removed from the web app at the product owner's request.
+> References to that component below describe the original 1.0.0 design; data provenance is
+> now surfaced per value and on S7 (Data & sources), with retry still available there.
+
 | Field | Value |
 |---|---|
 | Document | `docs/02-architecture.md` — system design + ordered implementation plan |

@@ -1,6 +1,5 @@
 import type { JSX } from 'react';
 import { DataSourcesLink } from '@/components/DataSourcesLink';
-import { StatusBanner } from '@/components/StatusBanner';
 import { RELEASES_URL } from '@/config/links';
 import { S0Welcome } from '@/screens/S0Welcome';
 import { S1FindField } from '@/screens/S1FindField';
@@ -32,8 +31,9 @@ const SCREENS: Record<Screen, () => JSX.Element> = {
 
 /**
  * Application shell. Owns only chrome that must be on EVERY screen:
- * the brand header, the persistent data-status banner, the current screen,
- * and the footer. All product logic lives in the screens and the pure domain.
+ * the brand header, the current screen and the footer. All product logic lives
+ * in the screens and the pure domain. Data provenance is shown per value through
+ * SourceLabel / EstimatedBadge and on the Data & sources screen.
  */
 export function App(): JSX.Element {
   const { state, actions, t } = useApp();
@@ -80,8 +80,6 @@ export function App(): JSX.Element {
           )}
         </div>
       </header>
-
-      <StatusBanner />
 
       <main id="main" className="app-main" tabIndex={-1}>
         <CurrentScreen />

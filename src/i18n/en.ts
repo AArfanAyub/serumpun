@@ -41,13 +41,6 @@ export const en: Record<string, string> = {
   'common.download': 'Download field card',
   'common.skipToContent': 'Skip to main content',
 
-  // ---- status banner ----
-  'banner.live': 'Live',
-  'banner.partly': 'Partly estimated',
-  'banner.offline': 'Offline sample',
-  'banner.partlyNote': 'Some data is estimated',
-  'banner.offlineNote': 'Offline sample data — nothing is live right now',
-  'banner.liveNote': 'All data sources answered',
 
   // ---- S0 welcome ----
   'welcome.eyebrow': 'For smallholder farmers',
