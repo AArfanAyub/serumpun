@@ -1,0 +1,145 @@
+classDiagram
+    direction LR
+    class FieldLocation {
+      +number latitude
+      +number longitude
+      +number? elevationM
+      +string? placeName
+      +string timezone
+      +boolean isCoarse
+    }
+    class FieldProfile {
+      +SoilTexture soilTexture
+      +number? soilPhOverride
+      +Irrigation irrigation
+      +Slope slope
+      +string? previousCropId
+      +FarmerPriority[] priorities
+      +boolean isSelfReported
+    }
+    class ClimateNormals {
+      +MonthlyClimate[] monthly
+      +string periodLabel
+      +Provenance provenance
+    }
+    class CurrentWeather {
+      +string observedAt
+      +number temperatureC
+      +ForecastDay[] forecast
+    }
+    class SoilProfile {
+      +SoilTexture texture
+      +number? ph
+      +string origin
+      +boolean isEstimated
+    }
+    class CropDefinition {
+      +string cropId
+      +string family
+      +NitrogenRole nitrogenRole
+      +RootDepth rootDepth
+      +string[] diseaseGroups
+      +Month[] plantingMonths
+      +OptRange temperatureC
+      +OptRange rainfallMmMonth
+      +OptRange ph
+    }
+    class SiteConditions {
+      +FieldLocation location
+      +Month targetMonth
+      +ClimateNormals climate
+      +CurrentWeather current
+      +SoilProfile soil
+      +FieldProfile profile
+      +Provenance[] provenance
+      +AppDataStatus appStatus
+    }
+    class FactorScore {
+      +FactorId factorId
+      +number weight
+      +number score
+      +Verdict verdict
+      +string reason
+      +SourceId sourceId
+      +string freshness
+      +boolean isEstimated
+    }
+    class CropRecommendation {
+      +number rank
+      +number score
+      +ConfidenceLevel confidence
+      +string whatThisMeans
+      +FactorScore[] factorBreakdown
+      +RiskNote[] riskNotes
+      +Provenance[] dataProvenance
+      +RotationPlan rotationPlan
+      +RotationStrategy[] strategies
+    }
+    class RotationPlan {
+      +RotationSeason[] seasons
+      +string[] transitionReasons
+      +boolean noConfidentMatch
+    }
+    class RotationStrategy {
+      +string strategyId
+      +boolean isExisting
+      +string[] evidence
+      +string[] benefits
+      +string[] informationGaps
+      +string[] risks
+      +RotationPlan plan
+    }
+    class Provenance {
+      +SourceId sourceId
+      +string licence
+      +string attribution
+      +string freshness
+      +DataStatus status
+      +boolean isEstimated
+    }
+    class DataSourceStatus {
+      +SourceId sourceId
+      +string state
+      +ApiError? error
+      +boolean fallbackUsed
+      +string userVisibleLabel
+    }
+    class Orchestrator {
+      +resolveLocation(input) FieldLocation
+      +fetchSite(loc) SiteConditions
+      +status() DataSourceStatus[]
+    }
+    class Normalizer {
+      +toSiteConditions(raw) SiteConditions
+    }
+    class ScoringEngine {
+      +score(site, crop) FactorScore[]
+      +rank(site, crops) CropRecommendation[]
+    }
+    class RotationPlanner {
+      +build(site, rec) RotationPlan
+    }
+    class StrategyBuilder {
+      +compare(site, rec) RotationStrategy[]
+    }
+
+    SiteConditions *-- FieldLocation
+    SiteConditions *-- ClimateNormals
+    SiteConditions *-- CurrentWeather
+    SiteConditions *-- SoilProfile
+    SiteConditions *-- FieldProfile
+    SiteConditions o-- Provenance
+    CropRecommendation *-- FactorScore
+    CropRecommendation *-- RotationPlan
+    CropRecommendation o-- RotationStrategy
+    CropRecommendation o-- Provenance
+    RotationStrategy *-- RotationPlan
+    FactorScore ..> Provenance : cites
+    DataSourceStatus *-- Provenance
+    CropDefinition ..> FactorScore : scored into
+    Orchestrator ..> Normalizer : feeds
+    Normalizer ..> SiteConditions : produces
+    ScoringEngine ..> SiteConditions : reads
+    ScoringEngine ..> CropDefinition : reads
+    RotationPlanner ..> SiteConditions : reads
+    StrategyBuilder ..> RotationPlanner : reuses

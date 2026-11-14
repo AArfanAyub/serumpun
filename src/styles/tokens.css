@@ -1,0 +1,36 @@
+/* Serumpun design tokens - the 8 fixed PRD 7.4 colours, light theme only. */
+:root {
+  --bg: #faf7f0;
+  --surface: #ffffff;
+  --green: #2f6b3a;
+  --green-soft: #e4efe3;
+  --amber: #d9a441;
+  --sand: #e8dcc8;
+  --text: #1f2a21;
+  --poor: #b4462f;
+
+  /* Derived, non-palette values - kept here so screens never hardcode colours. */
+  --muted: #5b685c;
+  --line: #d9cdb6;
+  --green-dark: #23522c;
+  --amber-soft: #fbf1da;
+  --poor-soft: #f7e6e1;
+  --shadow: 0 2px 10px rgba(31, 42, 33, 0.07);
+  --shadow-raised: 0 6px 22px rgba(31, 42, 33, 0.12);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --tap: 48px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-lead: 19px;
+  --fs-h1: 30px;
+  --fs-h2: 23px;
+  --fs-score: 56px;
+}

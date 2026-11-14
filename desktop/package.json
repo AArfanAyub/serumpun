@@ -1,0 +1,52 @@
+{
+  "name": "serumpun-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Optional, fully isolated Electron wrapper for Serumpun. Never installed by the root project.",
+  "main": "main.js",
+  "author": "Serumpun",
+  "license": "MIT",
+  "scripts": {
+    "start": "npm run prepare:web && electron .",
+    "dev": "npm run prepare:web && electron .",
+    "prepare:web": "node prepare-web.cjs",
+    "dist": "npm run prepare:web && electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "org.serumpun.desktop",
+    "productName": "Serumpun",
+    "copyright": "Serumpun - free, keyless, open decision support",
+    "directories": {
+      "output": "../release"
+    },
+    "asar": false,
+    "files": [
+      "main.js",
+      "preload.js",
+      "web/**/*"
+    ],
+    "compression": "normal",
+    "win": {
+      "icon": "icon.ico",
+      "target": [
+        "portable",
+        "nsis"
+      ]
+    },
+    "portable": {
+      "artifactName": "Serumpun-Portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Serumpun",
+      "artifactName": "Serumpun-Setup-1.0.0.exe"
+    }
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0"
+  }
+}

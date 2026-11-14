@@ -1,0 +1,108 @@
+sequenceDiagram
+    autonumber
+    actor U as Farmer
+    participant UI as UI Screens
+    participant ST as AppContext Reducer
+    participant OR as Orchestrator
+    participant HT as fetchWithTimeout
+    participant AL as Allowlist Guard
+    participant CA as Coordinate Cache
+    participant GEO as Open-Meteo Geocoding
+    participant POW as NASA POWER
+    participant OM as Open-Meteo Forecast
+    participant SG as ISRIC SoilGrids
+    participant NOM as Nominatim
+    participant GIB as GIBS and OSM Tiles
+    participant SD as Bundled Sample Data
+    participant NM as Normalizer
+    participant DB as CropDB
+    participant SE as ScoringEngine
+    participant RP as RotationPlanner
+    participant SB as StrategyBuilder
+
+    U->>UI: S0 to S1 pick location (search / GPS / pin / manual coords)
+    UI->>ST: dispatch SET_LOCATION_PENDING
+    ST->>OR: resolveLocation(input)
+    OR->>HT: GET geocoding (timeout 6s, AbortController)
+    HT->>AL: assertAllowed(url)
+    AL-->>HT: ok (host on allowlist)
+    HT->>CA: read cache key name
+    alt cache hit and fresh
+        CA-->>OR: FieldLocation status=cached
+    else miss or geocode fails
+        HT->>GEO: GET geocoding-api.open-meteo.com
+        GEO-->>HT: JSON or error
+        HT-->>OR: FetchResult
+        OR->>SD: bundled sample location
+        SD-->>OR: FieldLocation status=bundled sample
+    end
+    OR->>HT: GET Nominatim reverse (1 req/s, descriptive UA)
+    HT->>NOM: reverse zoom=10
+    NOM-->>HT: place / admin context
+    Note over OR,NOM: optional; failure yields "Area not named", never blocks
+    OR-->>ST: FieldLocation + Provenance[]
+
+    ST->>OR: fetchSite(location)
+    par parallel fetches via Promise.allSettled (per-source isolation)
+        OR->>HT: POWER climatology (10s)
+        HT->>POW: 9 AG params, JAN..DEC + ANN
+        POW-->>HT: JSON
+        HT->>CA: put TTL 30d key lat3:lon3
+    and
+        OR->>HT: Open-Meteo forecast + current (8s)
+        HT->>OM: current + daily 16d, timezone=auto
+        OM-->>HT: JSON with elevation / ET0 / soil_moisture
+        HT->>CA: put TTL 1h current / 3h forecast
+    and
+        OR->>HT: Open-Meteo archive 5y (P1, 10s)
+        HT->>OM: archive daily precip / temp
+        OM-->>HT: JSON or error (view hidden on failure)
+    and
+        OR->>HT: ISRIC SoilGrids (8s HARD AbortController)
+        HT->>SG: phh2o/clay/sand/soc 0-5cm mean
+        SG-->>HT: JSON with mean:null or timeout
+        Note over OR,SG: mean:null / timeout -> manual soil picker labelled self-reported; NEVER blocks
+        HT->>CA: put TTL 30d key lat3:lon3
+    and
+        OR->>HT: OSM raster tiles + optional GIBS overlay (lazy, map screens only)
+        HT->>GIB: tile requests, 6s each
+        GIB-->>HT: JPEG/PNG or failure -> solid-colour fallback
+    end
+    HT-->>OR: FetchResult[] each with Provenance + status
+    OR->>OR: reduce to AppDataStatus Live / Partly estimated / Offline sample
+    alt all sources failed OR navigator.onLine is false
+        OR->>SD: load sample POWER / forecast / geocode / soil payloads
+        SD-->>OR: raw payloads, every factor isEstimated=true
+    end
+    OR->>NM: toSiteConditions(raw, location, status)
+    NM->>NM: PRECTOTCORR mm/day x daysInMonth -> monthly mm
+    NM->>NM: JAN..DEC -> Month 1..12; timezone -> targetMonth; ANN kept aside
+    NM->>NM: merge FieldProfile overrides + SoilGrids prefill, set isEstimated
+    NM-->>ST: SiteConditions + Provenance[] + DataSourceStatus[]
+    ST-->>UI: render S2 Field snapshot (KPI strip with source + freshness)
+
+    U->>UI: S3 Field profile (3 steps, "I don't know" allowed everywhere)
+    UI->>ST: dispatch SET_PROFILE
+    ST->>NM: re-merge profile overrides
+    NM-->>ST: updated SiteConditions
+
+    ST->>SE: rank(SiteConditions, DB.all(), lang, targetMonth)
+    SE->>DB: load + validate crops.json
+    loop for each crop (approx 30-40)
+        SE->>SE: 7 pure factor scorers, trapezoidal membership
+        SE->>SE: weighted sum -> integer score 0..100
+        SE->>SE: confidence (completeness -> High/Medium/Low + reason)
+    end
+    SE->>SE: sort score desc, confidence desc, completeness desc, cropId asc
+    SE-->>ST: top 3-5 CropRecommendation (rotation not yet attached)
+
+    ST->>RP: build(SiteConditions, each top recommendation)
+    RP->>RP: DFS over S2/S3 candidates, enforce 6 hard rules
+    RP-->>ST: RotationPlan (3 seasons + transitionReasons + cautions)
+    ST->>SB: compare(SiteConditions, recommendation, plans)
+    SB->>SB: build >=3 strategies including existing rotation
+    SB-->>ST: RotationStrategy[] with evidence / benefits / gaps / risks
+    ST->>ST: attach rotationPlan + strategies to CropRecommendation
+    ST-->>UI: render S4 -> S5 -> S6 -> S6 compare -> S7
+    UI-->>U: ranked crops, Why this crop, 3-season plan, strategy compare, Data and sources
+    Note over U,UI: persistent status banner + Try again + decision-support disclaimer always visible

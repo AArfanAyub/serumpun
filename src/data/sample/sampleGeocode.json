@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "id": 1642907,
+      "name": "Surakarta",
+      "latitude": -7.55,
+      "longitude": 110.42,
+      "elevation": 210,
+      "feature_code": "PPL",
+      "country_code": "ID",
+      "country": "Indonesia",
+      "admin1": "Central Java",
+      "admin2": "Surakarta",
+      "timezone": "Asia/Jakarta"
+    },
+    {
+      "id": 1621173,
+      "name": "Klaten",
+      "latitude": -7.7056,
+      "longitude": 110.6,
+      "elevation": 155,
+      "country_code": "ID",
+      "country": "Indonesia",
+      "admin1": "Central Java",
+      "timezone": "Asia/Jakarta"
+    }
+  ],
+  "generationtime_ms": 0.42
+}

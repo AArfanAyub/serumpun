@@ -1,0 +1,19 @@
+{
+  "place_id": 298741,
+  "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+  "osm_type": "relation",
+  "osm_id": 1234567,
+  "lat": "-7.55",
+  "lon": "110.42",
+  "display_name": "Surakarta, Central Java, Java, Indonesia",
+  "name": "Surakarta",
+  "address": {
+    "city": "Surakarta",
+    "state": "Central Java",
+    "region": "Java",
+    "country": "Indonesia",
+    "country_code": "id"
+  },
+  "boundingbox": ["-7.62", "-7.48", "110.35", "110.49"],
+  "note": "Bundled sample payload; live place names come from Nominatim under ODbL."
+}

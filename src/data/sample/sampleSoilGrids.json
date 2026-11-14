@@ -1,0 +1,44 @@
+{
+  "type": "Feature",
+  "geometry": { "type": "Point", "coordinates": [110.42, -7.55] },
+  "properties": {
+    "layers": [
+      {
+        "name": "phh2o",
+        "unit_measure": { "d_factor": 10, "mapped_units": "pH*10", "target_units": "pH" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 61 } }]
+      },
+      {
+        "name": "clay",
+        "unit_measure": { "d_factor": 10, "mapped_units": "g/kg*10", "target_units": "g/kg" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 370 } }]
+      },
+      {
+        "name": "sand",
+        "unit_measure": { "d_factor": 10, "mapped_units": "g/kg*10", "target_units": "g/kg" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 280 } }]
+      },
+      {
+        "name": "silt",
+        "unit_measure": { "d_factor": 10, "mapped_units": "g/kg*10", "target_units": "g/kg" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 350 } }]
+      },
+      {
+        "name": "soc",
+        "unit_measure": { "d_factor": 10, "mapped_units": "dg/kg", "target_units": "g/kg" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 145 } }]
+      },
+      {
+        "name": "nitrogen",
+        "unit_measure": { "d_factor": 100, "mapped_units": "cg/kg", "target_units": "g/kg" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 12 } }]
+      },
+      {
+        "name": "cec",
+        "unit_measure": { "d_factor": 10, "mapped_units": "mmol(c)/kg", "target_units": "cmol(c)/kg" },
+        "depths": [{ "label": "0-5cm", "values": { "mean": 214 } }]
+      }
+    ]
+  },
+  "note": "Bundled successful SoilGrids-shaped sample. Some pixels return mean:null; that is a normal no-data outcome handled by the manual soil picker."
+}
