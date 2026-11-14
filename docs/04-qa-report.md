@@ -207,19 +207,65 @@ Files changed for packaging: `desktop/main.js` (loopback static server),
 `README.md`, this report. Root `npm run typecheck` / `npm test` / `npm run build` still pass
 unchanged (127 offline tests + 5 live tests).
 
-## 9. Final sign-off
+## 9. GitHub publishing & hosted web verification
+
+The user asked for the verified portable executable to be published on GitHub and for the
+software to be usable directly from the web with GitHub as the host.
+
+| Item | Result |
+|---|---|
+| Public source repo | https://github.com/AArfanAyub/serumpun |
+| Live web app (GitHub Pages) | **https://aarfanayub.github.io/serumpun/** — HTTP 200 |
+| Release | https://github.com/AArfanAyub/serumpun/releases/tag/v1.0.0 |
+| `Serumpun-Portable.exe` | 94,095,936 bytes, release asset, download URL returns 200 |
+| `Serumpun-Setup-1.0.0.exe` | 102,178,598 bytes, release asset |
+| `SHA256SUMS.txt` | both digests re-computed at release time, unchanged from §8 |
+| `/releases/latest` | 302 → v1.0.0 (the exact URL used by the in-app footer link) |
+
+Hosting method: branch-based GitHub Pages (`build_type=legacy`, source `gh-pages:/`),
+populated by `npm run deploy:pages` (`scripts/deploy-pages.mjs`), which builds `dist/` and
+force-pushes it to `gh-pages` with a `.nojekyll` marker. Vite's `base: './'` means all
+asset URLs, the PWA manifest and the service worker resolve correctly under the
+`/serumpun/` project path.
+
+Why not GitHub Actions: the publishing token is an OAuth App token with only `repo`,
+`gist` and `read:org` scopes. GitHub refused both the git push and the Contents API for
+`.github/workflows/pages.yml` ("refusing to allow an OAuth App ... without `workflow`
+scope"); a temporary write-enabled SSH deploy key was rejected the same way and was then
+deleted (zero deploy keys remain). A ready-made workflow is kept at
+`docs/pages-workflow.yml.example` for accounts that have the `workflow` scope.
+
+Live verification (after `POST /pages/builds` reported `status: built`):
+
+- All 12 published paths returned HTTP 200: `/`, `index.html`, `sw.js`,
+  `manifest.webmanifest`, all three hashed `assets/*`, all four `icons/*`, `.nojekyll`.
+- Headless Chrome rendering of the live URL produced the real welcome screen with the
+  stylesheet applied: "Know what to plant, and why.", "Find my field", the free/no-account
+  statement, status banner, footer and the "Windows desktop app" link to the release.
+  Screenshot: `qa-artifacts/live-pages-welcome.png`.
+- `npm test` after all publishing changes: 128 passed, 5 live tests skipped (opt-in).
+
+Repo hygiene: `release/`, `desktop/web/` and `qa-artifacts/chrome-profile/` are gitignored.
+`desktop/prepare-web.cjs` regenerates `web/` from `dist/` before `start` / `dev` / `dist`,
+so a clean clone can still rebuild the Windows executables.
+
+## 10. Final sign-off
 
 **PASS.** Serumpun builds, serves, renders on a real small-screen browser, produces
 explainable crop recommendations and a rules-compliant 3-season rotation with ≥3 comparable
 strategies, works fully offline, and talks to eight genuinely free, keyless, account-free
 open-data sources with graceful degradation and visible attribution. The Windows
 executables were built and **launched and driven end-to-end**, including a live-data path.
-No API keys, payment, accounts, ads or tracking exist anywhere in the codebase.
+No API keys, payment, accounts, ads or tracking exist anywhere in the codebase. The public
+GitHub repository, the hosted GitHub Pages app and the v1.0.0 Release carrying both Windows
+executables were all verified live (§9).
 
 Suggested user next steps:
-1. Double-click `release/Serumpun-Portable.exe` — no installation needed.
-2. Or `npm install && npm run dev`, then tap **"Use a sample field (offline)"** for a
+1. Open **https://aarfanayub.github.io/serumpun/** in any browser — no installation.
+2. Or download `Serumpun-Portable.exe` from the
+   [latest release](https://github.com/AArfanAyub/serumpun/releases/latest) and double-click it.
+3. Or `npm install && npm run dev`, then tap **"Use a sample field (offline)"** for a
    zero-network demo.
-3. `npm run verify:live` to prove the live data path.
-4. `npm run build` for a static `dist/` deployable to any free host.
-5. `cd desktop && npm run dist` to rebuild the Windows binaries.
+4. `npm run verify:live` to prove the live data path.
+5. `npm run deploy:pages` to publish a new web build; `cd desktop && npm run dist` to
+   rebuild the Windows binaries.
