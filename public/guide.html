@@ -81,12 +81,21 @@
     .phone{height:min(38vh,340px);max-width:250px}
     .tip{margin-top:16px}
   }
+  @page{size:A4;margin:12mm}
   @media print{
     .topbar,.progress,.controls{display:none}
     main{display:block;padding:0}
-    .slide,.slide.is-active,.slide--center.is-active{display:block!important;page-break-after:always;margin-bottom:28px}
-    .phone{height:auto;max-height:none;border:0;border-radius:0;box-shadow:none;overflow:visible}
-    .phone img{max-width:420px}
+    .slide,.slide.is-active,.slide--center.is-active{display:block!important;page-break-after:always;width:100%;margin:0;padding:0;box-sizing:border-box}
+    .slide--cols{display:flex!important;flex-direction:row;align-items:flex-start;gap:16px}
+    .slide .copy{flex:1 1 49%;min-width:0}
+    .slide .visual{flex:1 1 50%;min-width:0;margin:0}
+    .slide h2{font-size:19px;line-height:1.2;margin:0 0 6px}
+    .slide p{font-size:12.5px;line-height:1.4;margin:0 0 6px}
+    .slide ul{margin:4px 0;padding-left:18px}
+    .slide li{font-size:12.5px;line-height:1.4;margin:0 0 3px}
+    .phone{height:auto;max-height:none;border:0;border-radius:0;box-shadow:none;overflow:visible;margin:0 auto;max-width:320px}
+    .phone img{width:auto;height:auto;max-width:320px;max-height:560px;display:block;margin:0 auto}
+    .cap,.scrollhint{text-align:center;font-size:11.5px;margin:4px 0 0}
   }
 </style>
 </head>
@@ -115,10 +124,11 @@
   <div class="cta-row">
     <button class="btn btn--primary" type="button" onclick="document.getElementById('next').click()">Start the walkthrough →</button>
     <a class="btn btn--ghost" href="https://aarfanayub.github.io/serumpun/" target="_blank" rel="noreferrer noopener">Open the live app ↗</a>
+    <a class="btn btn--ghost" href="how-to-use.pdf" download="Serumpun-how-to-use.pdf" target="_blank" rel="noreferrer noopener">Download PDF ↧</a>
   </div>
   <p class="cap">Use the ← → arrow keys, the buttons below, or swipe on a touch screen.</p>
 </section>
-<section class="slide" data-title="Open the website">
+<section class="slide slide--cols" data-title="Open the website">
   <div class="copy">
     <p class="eyebrow">Step 1 of 11</p>
     <h2>Open the website</h2>
@@ -137,7 +147,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Tell it where your field is">
+<section class="slide slide--cols" data-title="Tell it where your field is">
   <div class="copy">
     <p class="eyebrow">Step 2 of 11</p>
     <h2>Tell it where your field is</h2>
@@ -156,7 +166,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Check the field snapshot">
+<section class="slide slide--cols" data-title="Check the field snapshot">
   <div class="copy">
     <p class="eyebrow">Step 3 of 11</p>
     <h2>Check the field snapshot</h2>
@@ -175,7 +185,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Describe your field · soil">
+<section class="slide slide--cols" data-title="Describe your field · soil">
   <div class="copy">
     <p class="eyebrow">Step 4 of 11</p>
     <h2>Describe your field · soil</h2>
@@ -194,7 +204,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Describe your field · water &amp;amp; terrain">
+<section class="slide slide--cols" data-title="Describe your field · water &amp;amp; terrain">
   <div class="copy">
     <p class="eyebrow">Step 5 of 11</p>
     <h2>Describe your field · water &amp; terrain</h2>
@@ -213,7 +223,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Describe your field · history &amp;amp; size">
+<section class="slide slide--cols" data-title="Describe your field · history &amp;amp; size">
   <div class="copy">
     <p class="eyebrow">Step 6 of 11</p>
     <h2>Describe your field · history &amp; size</h2>
@@ -232,7 +242,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Read your crop recommendations">
+<section class="slide slide--cols" data-title="Read your crop recommendations">
   <div class="copy">
     <p class="eyebrow">Step 7 of 11</p>
     <h2>Read your crop recommendations</h2>
@@ -251,7 +261,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Understand why a crop scored that way">
+<section class="slide slide--cols" data-title="Understand why a crop scored that way">
   <div class="copy">
     <p class="eyebrow">Step 8 of 11</p>
     <h2>Understand why a crop scored that way</h2>
@@ -270,7 +280,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Plan the next three seasons">
+<section class="slide slide--cols" data-title="Plan the next three seasons">
   <div class="copy">
     <p class="eyebrow">Step 9 of 11</p>
     <h2>Plan the next three seasons</h2>
@@ -289,7 +299,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Compare at least three strategies">
+<section class="slide slide--cols" data-title="Compare at least three strategies">
   <div class="copy">
     <p class="eyebrow">Step 10 of 11</p>
     <h2>Compare at least three strategies</h2>
@@ -308,7 +318,7 @@
     <p class="scrollhint">Scroll inside the phone to see the whole screen ↓</p>
   </figure>
 </section>
-<section class="slide" data-title="Check where every number came from">
+<section class="slide slide--cols" data-title="Check where every number came from">
   <div class="copy">
     <p class="eyebrow">Step 11 of 11</p>
     <h2>Check where every number came from</h2>
@@ -342,6 +352,7 @@
   <div class="cta-row">
     <a class="btn btn--primary" href="https://aarfanayub.github.io/serumpun/" target="_blank" rel="noreferrer noopener">Open Serumpun ↗</a>
     <button class="btn btn--ghost" type="button" onclick="document.querySelector('.dot').click()">Start this guide again ↺</button>
+    <a class="btn btn--ghost" href="how-to-use.pdf" download="Serumpun-how-to-use.pdf" target="_blank" rel="noreferrer noopener">Download this guide (PDF) ↧</a>
   </div>
 </section>
   </main>

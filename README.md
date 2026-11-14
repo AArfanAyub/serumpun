@@ -22,6 +22,7 @@ recommendation and rotation view carries a fixed decision-support disclaimer and
 |---|---|
 | **Web app** — the full app, on any phone or computer, installable to the home screen, works offline | **https://aarfanayub.github.io/serumpun/** |
 | **How to use** — 13-slide visual walkthrough with a screenshot of every screen | **https://aarfanayub.github.io/serumpun/guide.html** |
+| **How to use (PDF)** — the same walkthrough as a printable 13-page PDF | **https://aarfanayub.github.io/serumpun/how-to-use.pdf** |
 | **Windows portable `.exe`** — single file, no install, runs from a USB stick | [Latest release](https://github.com/AArfanAyub/serumpun/releases/latest) |
 | **Windows installer `.exe`** — optional, with shortcut and uninstaller | [Latest release](https://github.com/AArfanAyub/serumpun/releases/latest) |
 | **Source code** | https://github.com/AArfanAyub/serumpun |

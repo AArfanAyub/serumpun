@@ -242,12 +242,21 @@ TEMPLATE = r"""<!doctype html>
     .phone{height:min(38vh,340px);max-width:250px}
     .tip{margin-top:16px}
   }
+  @page{size:A4;margin:12mm}
   @media print{
     .topbar,.progress,.controls{display:none}
     main{display:block;padding:0}
-    .slide,.slide.is-active,.slide--center.is-active{display:block!important;page-break-after:always;margin-bottom:28px}
-    .phone{height:auto;max-height:none;border:0;border-radius:0;box-shadow:none;overflow:visible}
-    .phone img{max-width:420px}
+    .slide,.slide.is-active,.slide--center.is-active{display:block!important;page-break-after:always;width:100%;margin:0;padding:0;box-sizing:border-box}
+    .slide--cols{display:flex!important;flex-direction:row;align-items:flex-start;gap:16px}
+    .slide .copy{flex:1 1 49%;min-width:0}
+    .slide .visual{flex:1 1 50%;min-width:0;margin:0}
+    .slide h2{font-size:19px;line-height:1.2;margin:0 0 6px}
+    .slide p{font-size:12.5px;line-height:1.4;margin:0 0 6px}
+    .slide ul{margin:4px 0;padding-left:18px}
+    .slide li{font-size:12.5px;line-height:1.4;margin:0 0 3px}
+    .phone{height:auto;max-height:none;border:0;border-radius:0;box-shadow:none;overflow:visible;margin:0 auto;max-width:320px}
+    .phone img{width:auto;height:auto;max-width:320px;max-height:560px;display:block;margin:0 auto}
+    .cap,.scrollhint{text-align:center;font-size:11.5px;margin:4px 0 0}
   }
 </style>
 </head>
@@ -362,6 +371,7 @@ def cover() -> str:
   <div class="cta-row">
     <button class="btn btn--primary" type="button" onclick="document.getElementById('next').click()">Start the walkthrough →</button>
     <a class="btn btn--ghost" href="@@SITE@@" target="_blank" rel="noreferrer noopener">Open the live app ↗</a>
+    <a class="btn btn--ghost" href="how-to-use.pdf" download="Serumpun-how-to-use.pdf" target="_blank" rel="noreferrer noopener">Download PDF ↧</a>
   </div>
   <p class="cap">Use the ← → arrow keys, the buttons below, or swipe on a touch screen.</p>
 </section>""".replace("@@SITE@@", SITE)
@@ -369,7 +379,7 @@ def cover() -> str:
 
 def step_slide(n: int, s: dict) -> str:
     points = "\n".join(li(p) for p in s["points"])
-    return f"""<section class="slide" data-title="{html.escape(s['title'], quote=True)}">
+    return f"""<section class="slide slide--cols" data-title="{html.escape(s['title'], quote=True)}">
   <div class="copy">
     <p class="eyebrow">Step {n} of {len(STEPS)}</p>
     <h2>{s['title']}</h2>
@@ -403,6 +413,7 @@ def finish() -> str:
   <div class="cta-row">
     <a class="btn btn--primary" href="@@SITE@@" target="_blank" rel="noreferrer noopener">Open Serumpun ↗</a>
     <button class="btn btn--ghost" type="button" onclick="document.querySelector('.dot').click()">Start this guide again ↺</button>
+    <a class="btn btn--ghost" href="how-to-use.pdf" download="Serumpun-how-to-use.pdf" target="_blank" rel="noreferrer noopener">Download this guide (PDF) ↧</a>
   </div>
 </section>""".replace("@@SITE@@", SITE).replace("@@RELEASES@@", RELEASES).replace("@@REPO@@", REPO)
 
