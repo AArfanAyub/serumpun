@@ -48,6 +48,12 @@ describe('application shell renders end-to-end (no runtime crash)', () => {
     expect(html).toContain('rel="noreferrer noopener"');
   });
 
+  it('links to the hosted how-to-use guide from the footer', () => {
+    const html = renderApp();
+    expect(html).toContain('./guide.html');
+    expect(html).toContain('How to use');
+  });
+
   it('renders accessible primary controls (>=48px tap targets via CSS, real buttons)', () => {
     const html = renderApp();
     expect(html).toContain('class="btn btn--block"');

@@ -8,6 +8,7 @@ export const en: Record<string, string> = {
   'app.tagline': 'What to plant this month, and what to plant next',
   'app.free': 'Free · No account · No ads · Works offline',
   'app.desktopApp': 'Windows desktop app',
+  'app.howToUse': 'How to use',
   'common.next': 'Next',
   'common.back': 'Back',
   'common.change': 'Change location',

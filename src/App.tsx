@@ -96,6 +96,10 @@ export function App(): JSX.Element {
           className="row row--center"
           style={{ margin: 'var(--space-2) 0 0', justifyContent: 'center', flexWrap: 'wrap' }}
         >
+          <a className="link-button" href="./guide.html" target="_blank" rel="noreferrer noopener">
+            {t('app.howToUse')}
+          </a>
+          <span aria-hidden="true">·</span>
           <DataSourcesLink />
           <span aria-hidden="true">·</span>
           <a className="link-button" href={RELEASES_URL} target="_blank" rel="noreferrer noopener">

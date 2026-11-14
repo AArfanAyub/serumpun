@@ -10,6 +10,7 @@ export const id: Record<string, string> = {
   'app.tagline': 'Apa yang sebaiknya ditanam bulan ini, dan bulan berikutnya',
   'app.free': 'Gratis · Tanpa akun · Tanpa iklan · Bisa tanpa internet',
   'app.desktopApp': 'Aplikasi desktop Windows',
+  'app.howToUse': 'Cara pakai',
   'common.next': 'Lanjut',
   'common.back': 'Kembali',
   'common.change': 'Ganti lokasi',

@@ -301,3 +301,27 @@ Verification: `npm run typecheck` clean, `npm test` 128 passed / 5 opt-in live s
 headless-Chrome DOM contains no `status-banner`, no "nothing is live right now" and no
 offline strip, while the welcome screen, both CTAs, disclaimer, footer and Windows release
 link still render. Screenshot: `qa-artifacts/live-pages-no-banner.png`.
+
+## 12. Visual how-to-use guide
+
+Built a 13-slide HTML walkthrough (cover + 11 steps + quick reference) with a full-page
+screenshot of **every part of the site**: S0 welcome, S1 find field, S2 snapshot, S3 steps
+1/2/3 (soil, water & terrain, history & size), S4 recommendations, S5 why, S6 rotation,
+S6B strategy comparison and S7 data sources.
+
+- `qa-artifacts/capture-guide.mjs` — launches headless Chrome with CDP, emulates a 430 px
+  mobile viewport at DPR 2, walks the live site via the sample-field path and saves
+  `qa-artifacts/guide-screens/*.png`. Final run: all 11 headings reached, zero console
+  errors or runtime exceptions.
+- `qa-artifacts/build-guide.py` — downsizes each capture to 520 px wide JPEG (q81), embeds
+  them as data URIs and writes `guide/how-to-use.html` (~3.0 MB, fully offline-capable)
+  plus the deployable copy `public/guide.html`.
+- Navigation: prev/next, clickable progress dots, ← → / PageUp / PageDown / Home / End
+  keys, touch swipe, deep links via `#slide-N`, and a print stylesheet that lays out every
+  slide. Each step pairs plain-language instructions with a scrollable phone-shaped frame
+  showing the entire screen.
+- `src/App.tsx` footer now links to `./guide.html` (new tab) with `app.howToUse` in both
+  dictionaries; `tests/render.test.ts` asserts the link and label are present.
+
+Verified in a real browser before delivery (see the guide screenshots in
+`qa-artifacts/guide-screens/`).

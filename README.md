@@ -21,6 +21,7 @@ recommendation and rotation view carries a fixed decision-support disclaimer and
 | What | Where |
 |---|---|
 | **Web app** — the full app, on any phone or computer, installable to the home screen, works offline | **https://aarfanayub.github.io/serumpun/** |
+| **How to use** — 13-slide visual walkthrough with a screenshot of every screen | **https://aarfanayub.github.io/serumpun/guide.html** |
 | **Windows portable `.exe`** — single file, no install, runs from a USB stick | [Latest release](https://github.com/AArfanAyub/serumpun/releases/latest) |
 | **Windows installer `.exe`** — optional, with shortcut and uninstaller | [Latest release](https://github.com/AArfanAyub/serumpun/releases/latest) |
 | **Source code** | https://github.com/AArfanAyub/serumpun |
@@ -39,6 +40,20 @@ Pages to "GitHub Actions" if your token also has the `workflow` scope.
 
 The app is a pure static bundle with relative asset URLs, so the same `dist/` folder
 also runs from any other free static host, a local file share or a USB stick.
+
+### The visual how-to-use guide
+
+`guide/how-to-use.html` is a **single self-contained HTML presentation** — all 11 screen
+captures are embedded as data URIs, so it works from a file share or a USB stick with no
+server and no external assets. It is also published as `guide.html` alongside the app and
+linked from the app footer. To refresh the screenshots after a UI change (needs
+`pip install pillow` for the build step):
+
+```bash
+node qa-artifacts/capture-guide.mjs   # CDP walkthrough → qa-artifacts/guide-screens/*.png
+python qa-artifacts/build-guide.py    # → guide/how-to-use.html + public/guide.html
+npm run deploy:pages                  # publishes the app and the guide together
+```
 
 The Windows builds are attached to the GitHub Release, not committed to the repository.
 Both are unsigned (no code-signing certificate, no payment, no account involved), so
